@@ -1,4 +1,3 @@
--- Создание таблицы товаров
 CREATE TABLE IF NOT EXISTS products (
     code        TEXT PRIMARY KEY,
     name        TEXT NOT NULL,
@@ -6,7 +5,6 @@ CREATE TABLE IF NOT EXISTS products (
     unit        TEXT DEFAULT 'шт'
 );
 
--- Вставка данных: видеокарты, процессоры, кулеры, ОЗУ, БП и др.
 INSERT INTO products (code, name, price, unit) VALUES
 -- Видеокарты
 ('0000001', 'GeForce RTX 5060 Ti', 35000.00, 'шт'),

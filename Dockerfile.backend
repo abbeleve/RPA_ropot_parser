@@ -1,20 +1,29 @@
 # Dockerfile.backend
-FROM python:3.11-slim
+FROM python:3.11
 
 WORKDIR /app
 
-# Сначала зависимости — для кэширования
+# Установка системных зависимостей для WeasyPrint (Debian 13 / Trixie)
+RUN apt-get update && apt-get install -y \
+    libpango-1.0-0 \
+    libpangocairo-1.0-0 \
+    libgdk-pixbuf-2.0-0 \
+    libffi-dev \
+    libxml2-dev \
+    libxslt1-dev \
+    libjpeg62-turbo-dev \
+    zlib1g-dev \
+    libfreetype6-dev \
+    liblcms2-dev \
+    libwebp-dev \
+    && rm -rf /var/lib/apt/lists/*
+
 COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# Потом код
 COPY . .
 
-# Убедимся, что static/output существует
 RUN mkdir -p /app/static/output
-
-# Проверка: где uvicorn?
-# RUN which uvicorn
 
 CMD ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -1,9 +1,7 @@
-# frontend/app.py
 import streamlit as st
 import requests
 
-BACKEND_URL = "http://backend:8000"  # внутри Docker
-# BACKEND_URL = "http://localhost:8000"  # при локальном запуске вне Docker
+BACKEND_URL = "http://backend:8000"
 
 st.set_page_config(page_title="Умник — RPA", layout="centered")
 st.title("🤖 Умник — RPA для ценовой спецификации")
@@ -17,10 +15,8 @@ if uploaded_file is not None:
             files = {"file": (uploaded_file.name, uploaded_file.getvalue(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")}
             response = requests.post(f"{BACKEND_URL}/upload", files=files, timeout=30)
             if response.status_code == 200:
-                result = response.json()
-                download_url = f"{BACKEND_URL}{result['download_url']}"
                 st.success("✅ Файл успешно обработан!")
-                st.markdown(f"[⬇️ Скачать ценовую спецификацию]({download_url})")
+                st.download_button("Скачать", data=response.content, file_name="spec.pdf", mime="application/pdf")
             else:
                 error = response.json().get("detail", "Неизвестная ошибка")
                 st.error(f"❌ Ошибка: {error}")

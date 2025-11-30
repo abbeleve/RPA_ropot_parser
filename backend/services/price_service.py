@@ -1,4 +1,3 @@
-# app/services/price_service.py
 import os
 from typing import List, Dict
 from sqlalchemy import create_engine, text, bindparam, String
@@ -6,7 +5,6 @@ from sqlalchemy.exc import SQLAlchemyError
 
 
 class PriceServiceError(Exception):
-    """Базовое исключение для PriceService"""
     pass
 
 class PriceService:
@@ -14,7 +12,7 @@ class PriceService:
         self.engine = create_engine(
             database_url,
             pool_pre_ping=True,
-            echo=False  # отключите echo в продакшене
+            echo=False
         )
         self._ensure_table_exists()
 
@@ -31,7 +29,6 @@ class PriceService:
         if not codes:
             return []
 
-        # Создаём список bindparam для каждого кода
         params = {f"code_{i}": code for i, code in enumerate(codes)}
         placeholders = ", ".join(f":code_{i}" for i in range(len(codes)))
         query = f"SELECT code, name, price, unit FROM products WHERE code IN ({placeholders})"

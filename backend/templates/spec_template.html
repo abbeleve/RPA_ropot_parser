@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            line-height: 1.4;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .title {
+            text-align: left;
+            font-size: 16pt;
+            font-weight: bold;
+            flex-grow: 1;
+            margin: 0;
+            padding-right: 20px; /* Отступ от правого блока */
+        }
+
+        .contract-info {
+            text-align: right;
+            font-size: 12pt;
+            line-height: 1.4;
+            white-space: nowrap;
+            margin-left: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            margin-top: 10px;
+            border: 1px solid black;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 5px;
+            vertical-align: top;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        /* Фиксированные ширины колонок */
+        th:nth-child(1), td:nth-child(1) { width: 30px; }
+        th:nth-child(2), td:nth-child(2) { width: 250px; }
+        th:nth-child(3), td:nth-child(3) { width: 60px; }
+        th:nth-child(4), td:nth-child(4) { width: 60px; }
+        th:nth-child(5), td:nth-child(5) { width: 90px; }
+        th:nth-child(6), td:nth-child(6) { width: 100px; }
+
+        .product-name {
+            text-align: left;
+            padding-left: 5px;
+        }
+
+        .quantity, .unit, .price, .amount {
+            text-align: center;
+        }
+
+        .total-row td:last-child {
+            font-weight: bold;
+        }
+
+        .conditions {
+            margin-top: 20px;
+        }
+
+        .conditions p, .conditions li {
+            text-align: justify;
+            margin: 5px 0;
+        }
+
+        .signature {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        .signature div {
+            width: 45%;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Заголовок и информация о договоре в одной строке -->
+    <div class="header-container">
+        <div class="title">Спецификация на поставку товаров</div>
+        <div class="contract-info">
+            Приложение №<br>
+            к Договору №<br>
+            от «» г.
+        </div>
+    </div>
+
+    <!-- Таблица -->
+    <table>
+        <thead>
+            <tr>
+                <th>№</th>
+                <th>Товары</th>
+                <th>Кол-во</th>
+                <th>Ед. изм.</th>
+                <th>Цена за единицу руб.</th>
+                <th>Стоимость руб.</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td class="product-name">{{ item.name }}</td>
+                <td class="quantity">{{ item.quantity }}</td>
+                <td class="unit">{{ item.unit }}</td>
+                <td class="price">{{ item.price|round(2) }}</td>
+                <td class="amount">{{ (item.price * item.quantity)|round(2) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr class="total-row">
+                <td colspan="5" style="text-align: right; padding-right: 5px;">Итого:</td>
+                <td>{{ total|round(2) }} руб.</td>
+            </tr>
+            <tr class="total-row">
+                <td colspan="5" style="text-align: right; padding-right: 5px;">в т.ч. НДС 18%:</td>
+                <td>{{ (total * 1.18)|round(2) }} руб.</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <!-- Условия оплаты -->
+    <div class="conditions">
+        <p><strong>Условия оплаты:</strong> оплата производится в два этапа:</p>
+        <ul style="padding-left: 20px;">
+            <li>первый этап: авансовый платеж в размере ___ % стоимости товаров, в срок не позднее 3 (трех) банковских дней со дня выставления счета Продавцом;</li>
+            <li>второй этап: ___ % стоимости товаров, согласно Спецификации, производится Покупателем в течение 3 (трех) банковских дней после получения уведомления от Продавца о наличии на складе Продавца и готовности к отгрузке товаров.</li>
+        </ul>
+        <p>Срок исполнения поставки не более ____ недель со дня зачисления денежных средств по первому платежу на расчетный счет Продавца.</p>
+    </div>
+
+    <!-- Подписи -->
+    <div class="signature">
+        <div>
+            <p><strong>Продавец</strong></p>
+            <p>Генеральный директор</p>
+            <p>ООО «_______________»</p>
+            <div style="margin-top: 20px; border-bottom: 1px solid black;"></div>
+            <p>М.П.</p>
+        </div>
+        <div>
+            <p><strong>Покупатель</strong></p>
+            <p>Генеральный директор</p>
+            <p>ООО «_______________»</p>
+            <div style="margin-top: 20px; border-bottom: 1px solid black;"></div>
+            <p>М.П.</p>
+        </div>
+    </div>
+
+</body>
+</html>
