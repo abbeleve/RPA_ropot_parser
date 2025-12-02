@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS products (
 
 INSERT INTO products (code, name, price, unit) VALUES
 -- Видеокарты
-('0000001', 'GeForce RTX 5060 Ti', 35000.00, 'шт'),
+('0000001', 'GeForce RTX 5060 Ti', 55000.00, 'шт'),
 ('0000002', 'GeForce RTX 4070 Super', 52000.00, 'шт'),
 ('0000003', 'Radeon RX 7800 XT', 48000.00, 'шт'),
 ('0000004', 'GeForce RTX 4090', 180000.00, 'шт'),
